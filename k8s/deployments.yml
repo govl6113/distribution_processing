@@ -1,0 +1,157 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pack-coffee
+  labels:
+    app: pack-coffee
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pack-coffee
+  template:
+    metadata:
+      labels:
+        app: pack-coffee
+    spec:
+      containers:
+        - name: pack-coffee
+          image: govl6113/coffee:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVICE_ID
+              value: pack-coffee
+            - name: REPLICA_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: REDIS_HOST
+              value: redis.default.svc.cluster.local
+          volumeMounts:
+            - name: pack-coffee
+              mountPath: /logs
+              subPathExpr: $(REPLICA_ID)
+      volumes:
+        - name: pack-coffee
+          hostPath:
+            path: /log/pack-coffee
+            type: DirectoryOrCreate
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mijung-noodles
+  labels:
+    app: mijung-noodles
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mijung-noodles
+  template:
+    metadata:
+      labels:
+        app: mijung-noodles
+    spec:
+      containers:
+        - name: mijung-noodles
+          image: govl6113/noodles:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVICE_ID
+              value: mijung-noodles
+            - name: REPLICA_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: REDIS_HOST
+              value: redis.default.svc.cluster.local
+          volumeMounts:
+            - name: mijung-noodles
+              mountPath: /logs
+              subPathExpr: $(REPLICA_ID)
+      volumes:
+        - name: mijung-noodles
+          hostPath:
+            path: /log/mijung-noodles
+            type: DirectoryOrCreate
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hongkong-banjeom
+  labels:
+    app: hongkong-banjeom
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hongkong-banjeom
+  template:
+    metadata:
+      labels:
+        app: hongkong-banjeom
+    spec:
+      containers:
+        - name: hongkong-banjeom
+          image: govl6113/banjeom:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVICE_ID
+              value: hongkong-banjeom
+            - name: REPLICA_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: REDIS_HOST
+              value: redis.default.svc.cluster.local
+          volumeMounts:
+            - name: hongkong-banjeom
+              mountPath: /logs
+              subPathExpr: $(REPLICA_ID)
+      volumes:
+        - name: hongkong-banjeom
+          hostPath:
+            path: /log/hongkong-banjeom
+            type: DirectoryOrCreate
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logging
+  labels:
+    app: logging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logging
+  template:
+    metadata:
+      labels:
+        app: logging
+    spec:
+      containers:
+        - name: logging
+          image: govl6113/logging:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REDIS_HOST
+              value: redis.default.svc.cluster.local
+            - name: REDIS_PORT
+              value: '6379'
+          volumeMounts:
+            - name: logging
+              mountPath: /app/data
+      volumes:
+        - name: logging
+          hostPath:
+            path: /log/logging
+            type: DirectoryOrCreate
