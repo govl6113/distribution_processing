@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 60초마다 설정 파일의 변경을 확인 하여 변경시 갱신 -->
+<configuration scan="true">
+
+  <!-- File Appender -->
+  <property name="LOG_PATH" value="./logs"/>
+
+  <!-- log file path -->
+  <property name="LOG_FILE_NAME" value="logging"/>
+
+  <property name="LOG_LEVEL" value="info"/>
+
+  <!-- log file name -->
+  <property name="LOG_PATTERN" value="%-5level %d{yy-MM-dd HH:mm:ss}[${PID:-}] [%logger{0}:%line] - %msg%n"/>
+
+  <!-- pattern -->
+  <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="FILE">
+    <!-- 파일경로 설정 -->
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>${LOG_PATTERN}</pattern>
+    </encoder>
+
+    <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+    <!-- 출력패턴 설정-->
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>INFO</level>
+      <onMatch>ACCEPT</onMatch> <!-- 해당 레벨만 기록한다. -->
+      <onMismatch>DENY</onMismatch> <!-- 다른 수준의 레벨은 기록하지 않는다.(상위 레벨도 기록 안함), 상위 수준의 레벨에 대한 기록을 원하면 ACCEPT 로 하면 기록된다. -->
+    </filter>
+
+    <!-- Rolling 정책 -->
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- .gz,.zip 등을 넣으면 자동 일자별 로그파일 압축 -->
+      <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+      <maxHistory>30</maxHistory>
+      <!-- 일자별 로그파일 최대 보관주기(~일), 해당 설정일 이상된 파일은 자동으로 제거-->
+      <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <!-- 파일당 최고 용량 kb, mb, gb -->
+        <maxFileSize>10MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+      <!--<MinIndex>1</MinIndex>
+      <MaxIndex>10</MaxIndex>-->
+    </rollingPolicy>
+
+  </appender>
+  <!-- roo t레벨 설정 -->
+  <root level="${LOG_LEVEL}">
+    <appender-ref ref="FILE"/>
+  </root>
+</configuration>
