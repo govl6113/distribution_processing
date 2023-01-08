@@ -11,7 +11,7 @@
 <br>
 ## How each component is implemented
 <img
-  src="https://user-images.githubusercontent.com/81179951/211199345-a6d90dfa-76e5-407f-84c6-8ceb464e3b19.png"
+  src="https://user-images.githubusercontent.com/81179951/211201622-184dffdf-0702-4f85-9526-c6394fbbad7e.png"
   width="550"
   height="600"
 />
@@ -20,7 +20,7 @@
 
 ## How component are integrated
 <img
-  src="https://user-images.githubusercontent.com/81179951/208570070-2401e571-520d-49ea-94cf-f6fd146816f7.png"
+  src="https://user-images.githubusercontent.com/81179951/211201666-9a3a60f9-3c5d-4589-86b2-de420a374a0d.png"
   width="900"
   height="600"
 />
