@@ -1,5 +1,6 @@
 
-## Goal/Purpose of distributed system
+
+## Introduction to Distributed Systems
 ### Concept : "백종원의 가게들"<br>
 각 서비스는 다음을 나타냅니다. [[API 명세](https://brash-wanderer-5cd.notion.site/280be039863f42c9a3e866b82ab77cab?v=ae38784a1bd942188dc84ebf9999fe2e)]
 - 빽다방 (메뉴에 관련된 API)
